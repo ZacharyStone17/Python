@@ -1,0 +1,179 @@
+uniqueNumber = 0
+ListOfItemNumbers = []
+
+numberOfItems = 0
+MINIMUMNUMBEROFITEMS = 10
+
+reservePrice = 0
+reservePriceOfAllItems = []
+
+description = 0
+descriptionOfAllItems = []
+#task 1
+#Auction set up.
+#For every item in the auction the item number, description and the reserve price should be recorded.
+#The number of bids is set to zero. There must be at least 10 items in the auction.
+
+numberOfItems = int(input("How many Items are you selling in the auction house today?"))
+
+while numberOfItems < MINIMUMNUMBEROFITEMS:
+    print("The auction house requires atleast 10 items")
+    numberOfItems = int(input("How many Items are you selling in the auction house today?"))
+
+for i in range(0, numberOfItems):
+    
+    #Item Number
+    uniqueNumber = str(input("What is your unique Item Number?"))
+    
+    while uniqueNumber == "" or uniqueNumber in (ListOfItemNumbers):
+        print("There was another Unique Item Number")  
+        uniqueNumber = str(input("What is your unique Item Number?"))
+            
+    ListOfItemNumbers.append(uniqueNumber)
+    
+    #Description
+    
+    description = str(input("What is the description of the item?"))
+    descriptionOfAllItems.append(description)
+    
+    #ReservePrice
+
+    reservePrice = float(input("What is the reserve price of the item?"))
+    
+    while reservePrice < 0:
+        print("Your Reserve Price is invalid, please enter it again")
+        reservePrice = float(input("What is the reserve price of the item?"))
+    
+    reservePriceOfAllItems.append(reservePrice)
+    
+print("")
+#Task 2
+#Buyer bids.
+#A buyer should be able to find an item and view the item number, description and the current highest
+#bid. A buyer can then enter their buyer number and bid, which must be higher than any previously
+#recorded bids. Every time a new bid is recorded the number of bids for that item is increased by one.
+#Buyers can bid for an item many times and they can bid for many items.
+
+YNLookAtItems = "Y"
+
+buyerInput = 0
+buyerInputArr = [""] * numberOfItems
+
+buyerNumber = 0
+buyerNumberArr = [""] * numberOfItems
+
+buyerBid = 0
+highestBidArr = [0] * numberOfItems
+
+numIndex = 0
+
+QuestionBid = 0
+
+numberOfBidsArr = [0] * numberOfItems
+
+
+for i in range(0, numberOfItems):
+    print("The list of Item Numbers are" + " " + ListOfItemNumbers[i])
+    print("The description of the item is:", descriptionOfAllItems[i])
+    print("The reserve price is:", reservePriceOfAllItems[i])    
+    print("")
+
+while YNLookAtItems == "Y":
+    YNLookAtItems = str(input("Do you want to look at more items, Y/N: ")).upper()
+    
+    if YNLookAtItems == "N":
+        break
+    
+    else:
+    
+                
+        #Buyer wanting to look at an item
+        buyerInput = str(input("Which item do you want to look at, Please enter the Item Number:"   )) 
+        while buyerInput not in (ListOfItemNumbers):
+            print("There is no item in our database with that Item Number")
+            buyerInput = str(input("Please enter the Item Number: ")) 
+        
+        buyerInputArr.append(buyerInput)
+    
+        for x in range(len(ListOfItemNumbers)):
+            if ListOfItemNumbers[x] == buyerInput:
+                numIndex = x  
+                break
+        
+        
+        print("The description of the item is:", descriptionOfAllItems[x])
+        print("The reserve price is:", reservePriceOfAllItems[x])
+        QuestionBid = str(input("Do you want to place a bid? Y/N: ")).upper()
+        
+        while QuestionBid != "Y" and QuestionBid != "N":
+            QuestionBid = str(input("Do you want to place a bid? Y/N: ")).upper()
+        
+        if QuestionBid == "Y":
+            #Buyer Bid
+            
+            buyerBid = float(input("What bid do you want to place on this item? " ))
+            
+              
+            while buyerBid <= highestBidArr[numIndex]:
+                print("Your bid is lower or equal to the current Bid. The current bid is ", highestBidArr[numIndex])
+                buyerBid = float(input("Please enter a bid higher than the current bid: "))
+                
+            highestBidArr[numIndex] = buyerBid
+            
+            buyerNumber = str(input("What is your buyer number: "))
+            buyerNumberArr[numIndex] = buyerNumber  
+            
+            numberOfBidsArr[numIndex] =  numberOfBidsArr[numIndex] + 1
+            
+            print("Your buyer number is", buyerNumberArr[numIndex])
+            print("The current bid is now", highestBidArr[numIndex])
+            print("The number of Bids for this item is", numberOfBidsArr[numIndex])
+            
+        else:
+            continue
+            
+#Task 3
+#Task 3 – At the end of the auction.
+#Using the results from TASK 2, identify items that have reached their reserve price, mark them as sold,
+#calculate 10% of the final bid as the auction company fee and add this to the total fee for all sold items.
+#Display this total fee. Display the item number and final bid for all the items with bids that have not
+#reached their reserve price. Display the item number of any items that have received no bids. Display
+#the number of items sold, the number of items that did not meet the reserve price and the number of
+#items with no bids
+
+YNSoldArr = [] * numberOfItems
+AUCTIONFEE = 0.1
+totalBid = 0
+highestBid = 0
+YSold = 0
+NSold = 0
+auctionTotal = 0
+noBid = 0
+noBidItemsArr = [] * noBid
+
+
+for y in range(0, numberOfItems):
+    highestBid = 0
+    highestBid = highestBidArr[y]
+    reservePrice = 0
+    reservePrice = reservePriceOfAllItems[y]
+    if numberOfBidsArr[y] == 0:
+        noBid = noBid + 1
+        noBidItemsArr.append(ListOfItemNumbers[y])
+    if highestBid >= reservePrice:
+        YSold = YSold + 1
+        totalBid = totalBid + highestBid
+    else:
+        print("Item Number", ListOfItemNumbers[y] , "has not reached it's reserve price")
+        print("The final bid for this item was", highestBid)
+        NSold = NSold + 1
+        
+
+auctionTotal = totalBid * AUCTIONFEE
+
+print("")
+print("The total fee the auction is taking is, $ ", auctionTotal)
+print("The number of items sold are, ", YSold)
+print("The numbers of items with no bids are, ", noBid)
+print("The item numbers that received no bids are, ", noBidItemsArr) 
+print("The number of items that did not reach its reserve price are, ", NSold)
