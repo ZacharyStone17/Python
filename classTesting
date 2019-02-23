@@ -1,4 +1,4 @@
-#Database for a Company. Has Class Employee with Developers, Managers and a CEO. 2019/23/02. 15 years old
+#Database for a Company. Has Class Employee with Developers, Managers and a CEO. 
 
 
 class Employee:
