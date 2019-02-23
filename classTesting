@@ -1,0 +1,60 @@
+#Database for a Company. Has Class Employee with Developers, Managers and a CEO. 2019/23/02. 15 years old
+
+
+class Employee:
+    def __init__(self, first, last, pay):
+        self.first = first
+        self.last = last
+        self.pay = pay
+        self.email = (first + "." + last + "@company.com")
+
+    def fullname(self):
+            return ("{} {}".format(self.first, self.last))
+
+class Developer(Employee):
+    def __init__(self, first, last, pay, prog_lang):
+        super().__init__(first,last,pay)
+        self.prog_lang = prog_lang
+
+class Manager(Employee):
+    def __init__(self, first, last, pay, employees=None):
+        super().__init__(first, last, pay)
+        if employees is None:
+            self.Employee = []
+        else:
+            self.employees = employees
+
+    def add_emp(self, emp):
+        if emp not in self.employees:
+            self.employees.append(emp)
+
+    def remove_emp(self, emp):
+        if emp in self.employees:
+            self.employees.remove(emp)
+
+    def print_emps(self):
+        for emp in self.employees:
+            print("--->", emp.fullname())
+
+class CEO(Employee):
+    def __init__(self, first, last, pay, compensation):
+        super().__init__(first,last,pay)
+        self.compensation = compensation
+
+dev_1 = Developer("Alex", "Dorey", 100000, "Python")
+mgr_1 = Manager("Sue", "Harold", 120000, [dev_1])
+
+CEO_1 = CEO("Zachary", "Stone", 12000000, 150000)
+
+emp_1 = Employee("Zero","Rock",500000 )
+emp_2 = Employee("John", "Smith", 40000)
+
+mgr_1.add_emp(emp_1)
+print(mgr_1.fullname())
+print(mgr_1.email)
+mgr_1.print_emps()
+print("\n")
+print(CEO_1.fullname())
+print(CEO_1.email)
+print("His Salary is", "$", CEO_1.pay)
+print("His compensation is" , "$",CEO_1.compensation)
