@@ -74,8 +74,9 @@ class PunchSpell(Spell): # punch
     
 class AirSpell(Spell): # air
     
-    def __init__(self):
+    def __init__(self, airMissDebuff):
         super().__init__(30,0.3,0.05,True)
+        self.airMissDebuff = 1
         
 class RockSpell(Spell): # rock
     
@@ -190,7 +191,7 @@ def objects():
     FirePotion = FireSpell(0)
     HealPotion = HealSpell()
     PunchPotion = PunchSpell()
-    AirPotion = AirSpell()
+    AirPotion = AirSpell(0)
     RockPotion = RockSpell()
     ShieldPotion = ShieldSpell()
 
@@ -230,11 +231,17 @@ def fight():
     healCounterPlayer1 = 0
     shieldCounterPlayer2 = 0
     healCounterPlayer2 = 0
+    missChanceIncreasePlayer1 = False
+    missChanceIncreasePlayer2 = False
     while healthPlayer1 > 0 and healthPlayer2 > 0:
         pointerChange = True
         if pointer == 1:
             print("Player 1 it is your turn!")
             if wizardChoicePlayer1 == 1: #add pointer to 2
+                if missChanceIncreasePlayer1 == True:
+                    LightningPotion.missChance = LightningPotion.missChance * 1.5
+                    FirePotion.missChance = FirePotion.missChance * 1.5
+                    missChanceIncreasePlayer1 = False
                 print("Player 1, what spell do you want to use? ")
                 spellChoicePlayer1 = input("Enter a spell: ")
                 while spellChoicePlayer1 not in ["Fire", "Lightning"]:
@@ -277,8 +284,15 @@ def fight():
                         print("\n")
                         print("Player 2 now has,", healthPlayer2 , "health")
                         if healthPlayer2 < 0:
-                            print("Your opponent has perished! Congratulations")    
+                            print("Your opponent has perished! Congratulations")
+  
+                print(LightningPotion.missChance)
+                print(FirePotion.missChance)
             elif wizardChoicePlayer1 == 2: # need to add pointers to 2
+                if missChanceIncreasePlayer1 == True:
+                    ShieldPotion.missChance = ShieldPotion.missChance * 1.5
+                    PunchPotion.missChance = PunchPotion.missChance * 1.5
+                    missChanceIncreasePlayer1 = False
                 print("Player 1, what spell do you want to use?  ") 
                 spellChoicePlayer1 = input("Enter a spell, you can only use Shield Twice: ")
                 while spellChoicePlayer1 not in ["Shield", "Punch"]:
@@ -311,8 +325,14 @@ def fight():
                         print("\n")
                         print("Player 2 now has,", healthPlayer2 , "health")
                         if healthPlayer2 < 0:
-                            print("Your opponent has perished! Congratulations")   
+                            print("Your opponent has perished! Congratulations")
+                PunchPotion.missChance = 0.35
+                ShieldPotion.missChance = 0.1     
             elif wizardChoicePlayer1 == 3:
+                if missChanceIncreasePlayer1 == True:
+                    AirPotion.missChance = AirPotion.missChance * 1.5
+                    RockPotion.missChance = RockPotion.missChance * 1.5
+                    missChanceIncreasePlayer1 = False
                 print("Player 1, what spell do you want to use? ")
                 spellChoicePlayer1 = input("Enter a spell: ")
                 while spellChoicePlayer1 not in ["Air", "Rock"]:
@@ -326,11 +346,18 @@ def fight():
                         time.sleep(1)
                         print("You missed your Air Potion!")
                     else:
+                        if random.randint(1,100) <= (AirPotion.airMissDebuff * 100):
+                            print("\n")
+                            print("...")
+                            time.sleep(1)
+                            print("You increased your opponent's chance to miss on the next turn!")
+                            missChanceIncreasePlayer2 = True
                         healthPlayer2 = healthPlayer2 - (AirPotion.damage)
                         print("\n")
                         print("Player 2 now has,", healthPlayer2 , "health")
                         if healthPlayer2 < 0:
                             print("Your opponent has perished! Congratulations")
+                
                 if spellChoicePlayer1 == "Rock":
                     print("Player 1 uses Rock Spell!")
                     if random.randint(1,100) <= (RockPotion.missChance * 100):
@@ -349,7 +376,13 @@ def fight():
                         print("Player 2 now has,", healthPlayer2 , "health")
                         if healthPlayer2 < 0:
                             print("Your opponent has perished! Congratulations")
+                AirPotion.missChance = 0.05
+                RockPotion.missChance = 0.3
             elif wizardChoicePlayer1 == 4:
+                if missChanceIncreasePlayer1 == True:
+                    WaterPotion.missChance = WaterPotion.missChance * 1.5
+                    HealPotion.missChance = HealPotion.missChance * 1.5
+                    missChanceIncreasePlayer1 = False
             
                 print("Player 1, what spell do you want to use? ")
                 spellChoicePlayer1 = input("Enter a spell, you can only use heal twice: ")
@@ -373,7 +406,7 @@ def fight():
                         if healthPlayer2 < 0:
                             print("Your opponent has perished! Congratulations")
                 if spellChoicePlayer1 == "Heal":
-                    print("Player 1 used Shield!")
+                    print("Player 1 used Heal!")
                     if random.randint(1,100) <= (ShieldPotion.missChance * 100):
                         print("\n")
                         print("...")
@@ -384,6 +417,8 @@ def fight():
                         print("Player 1, your health is now,", healthPlayer1)
                         print("\n")
                         healCounterPlayer1 = healCounterPlayer1 + 1
+                HealPotion.missChance = 0.05
+                WaterPotion.missChance = 0.1
 
             if pointerChange == True:
                 pointer = 2
@@ -394,6 +429,10 @@ def fight():
         if pointer == 2:
             print("Player 2 it is your turn!")
             if wizardChoicePlayer2 == 1:
+                if missChanceIncreasePlayer2 == True:
+                    LightningPotion.missChance = LightningPotion.missChance * 1.5
+                    FirePotion.missChance = FirePotion.missChance * 1.5
+                    missChanceIncreasePlayer2 = False
                 print("Player 2, what spell do you want to use? ")
                 spellChoicePlayer2 = input("Enter a spell: ")
                 while spellChoicePlayer2 not in ["Fire", "Lightning"]:
@@ -436,7 +475,13 @@ def fight():
                         print("Player 1 now has,", healthPlayer1 , "health")
                         if healthPlayer1 < 0:
                             print("Your opponent has perished! Congratulations")
+                FirePotion.missChance = 0.3
+                LightningPotion.missChance = 0.35
             elif wizardChoicePlayer2 == 2:
+                if missChanceIncreasePlayer2 == True:
+                    ShieldPotion.missChance = ShieldPotion.missChance * 1.5
+                    PunchPotion.missChance = PunchPotion.missChance * 1.5
+                    missChanceIncreasePlayer2 = False
                 print("Player 2, what spell do you want to use?  ") 
                 spellChoicePlayer2 = input("Enter a spell, you can only use Shield Twice: ")
                 while spellChoicePlayer2 not in ["Shield", "Punch"]:
@@ -470,7 +515,13 @@ def fight():
                         print("Player 1 now has,", healthPlayer1 , "health")
                         if healthPlayer1 < 0:
                             print("Your opponent has perished! Congratulations")
+                PunchPotion.missChance = 0.35
+                ShieldPotion.missChance = 0.1            
             elif wizardChoicePlayer2 == 3:
+                if missChanceIncreasePlayer2 == True:
+                    AirPotion.missChance = AirPotion.missChance * 1.5
+                    RockPotion.missChance = RockPotion.missChance * 1.5
+                    missChanceIncreasePlayer2 = False
                 print("Player 2, what spell do you want to use? ")
                 spellChoicePlayer2 = input("Enter a spell: ")
                 while spellChoicePlayer2 not in ["Air", "Rock"]:
@@ -484,11 +535,18 @@ def fight():
                         time.sleep(1)
                         print("You missed your Air Potion!")
                     else:
+                        if random.randint(1,100) <= (AirPotion.airMissDebuff * 100):
+                            print("\n")
+                            print("...")
+                            time.sleep(1)
+                            print("You increased your opponent's chance to miss on the next turn!")
+                            missChanceIncreasePlayer1 = True
                         healthPlayer1 = healthPlayer1 - (AirPotion.damage)
                         print("\n")
                         print("Player 1 now has,", healthPlayer1, "health")
                         if healthPlayer1 < 0:
                             print("Your opponent has perished! Congratulations")
+                
                 if spellChoicePlayer2 == "Rock":
                     print("Player 2 uses Rock Spell!")
                     if random.randint(1,100) <= (RockPotion.missChance * 100):
@@ -507,7 +565,13 @@ def fight():
                         print("Player 1 now has,", healthPlayer1 , "health")
                         if healthPlayer1 < 0:
                             print("Your opponent has perished! Congratulations")
+                AirPotion.missChance = 0.05
+                RockPotion.missChance = 0.3
             elif wizardChoicePlayer2 == 4:
+                if missChanceIncreasePlayer2 == True:
+                    WaterPotion.missChance = WaterPotion.missChance * 1.5
+                    HealPotion.missChance = HealPotion.missChance * 1.5
+                    missChanceIncreasePlayer2 = False
 
                 print("Player 2, what spell do you want to use? ")
                 spellChoicePlayer2 = input("Enter a spell, you can only use heal twice: ")
@@ -542,6 +606,8 @@ def fight():
                         print("Player 2, your health is now,", healthPlayer2)
                         print("\n")
                         healCounterPlayer2 = healCounterPlayer2 + 1
+                HealPotion.missChance = 0.05
+                WaterPotion.missChance = 0.1
             if pointerChange == True:
                 pointer = 1
             else:
