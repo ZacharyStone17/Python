@@ -76,7 +76,7 @@ class AirSpell(Spell): # air
     
     def __init__(self, airMissDebuff):
         super().__init__(30,0.3,0.05,True)
-        self.airMissDebuff = 1
+        self.airMissDebuff = 0.25
         
 class RockSpell(Spell): # rock
     
@@ -286,8 +286,8 @@ def fight():
                         if healthPlayer2 < 0:
                             print("Your opponent has perished! Congratulations")
   
-                print(LightningPotion.missChance)
-                print(FirePotion.missChance)
+                FirePotion.missChance = 0.3
+                LightningPotion.missChance = 0.35
             elif wizardChoicePlayer1 == 2: # need to add pointers to 2
                 if missChanceIncreasePlayer1 == True:
                     ShieldPotion.missChance = ShieldPotion.missChance * 1.5
