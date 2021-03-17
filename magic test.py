@@ -1,3 +1,5 @@
+import pygame
+import sys
 import random
 import time
 
@@ -64,101 +66,29 @@ class FireSpell(Spell): # fire spell
 class HealSpell(Spell): # heal
     
     def __init__(self):
-        super().__init__(-40,0,0.05,False)
+        super().__init__(-45,0,0.05,False)
     
 
 class PunchSpell(Spell): # punch
     
     def __init__(self):
-        super().__init__(55,0.5,0.35,False)
+        super().__init__(60,0.5,0.35,False)
     
 class AirSpell(Spell): # air
     
     def __init__(self, airMissDebuff):
-        super().__init__(30,0.3,0.05,True)
+        super().__init__(40,0.3,0.05,True)
         self.airMissDebuff = 0.25
         
 class RockSpell(Spell): # rock
     
     def __init__(self):
-        super().__init__(60,0.3,0.3,False)
+        super().__init__(70,0.3,0.3,False)
 
 class ShieldSpell(Spell):
     def __init__(self):
         super().__init__(-50,0,0.1,False)
 
-
-
-def mainProgram():
-    menu()
-
-def menu(): 
-    print("1. Play Wizard Game")
-    print("2. End Game")
-    choice = int(input("Enter Choice: "))
-    while choice < 1 or choice > 2:
-        print("Select 1 or 2!")
-        choice = int(input("Enter Choice: "))
-    if choice == 1:
-        play()
-    if choice == 2:
-        print("Thanks for playing!")
-        
-        
-def play():
-    global wizardDict
-    wizardDict = {
-        1: "Steven",
-        2: "John",
-        3: "Dave",
-        4: "Shaniquous"
-
-    }
-    global wizardChoicePlayer1
-    global wizardChoicePlayer2
-    objects()
-    print("\n\n\n")
-    print("Welcome to the Wizard game")
-    print("PLAYER 1")
-    print("Choose Your Wizard!")
-    print("1. Steven: A powerful and agressive wizard")
-    print("2. John: A defensive but mildly irrational wizard")
-    print("3. Dave: A wizard who controls the elements")
-    print("4. Shaniquous: Shaniquous")    
-    wizardChoicePlayer1 = int(input("Enter Wizard: "))
-    while (wizardChoicePlayer1>4 or wizardChoicePlayer1<1):
-        print("Not a valid wizard: ")
-        wizardChoicePlayer1 = int(input("Enter Wizard: "))
-    if wizardChoicePlayer1 == 1:
-        print("Player 1 has chosen Steven!")
-    elif wizardChoicePlayer1 == 2:
-        print("Player 1 has summoned John!")
-    elif wizardChoicePlayer1 == 3:
-        print("Player 1 has picked Dave!")
-    elif wizardChoicePlayer1 == 4:
-        print("Shaniquous.")
-
-    print("\n\n\n\n\n")
-    print("PLAYER 2")
-    print("Choose Your Wizard!")
-    print("1. Steven: A powerful and agressive wizard")
-    print("2. John: A defensive but mildly irrational wizard")
-    print("3. Dave: A wizard who controls the elements")
-    print("4. Shaniquous: Shaniquous")   
-    wizardChoicePlayer2 = int(input("Enter Wizard: "))
-    while (wizardChoicePlayer2>4 or wizardChoicePlayer2<1):
-        print("Not a valid wizard: ")
-        wizardChoicePlayer2 = int(input("Enter Wizard: "))
-    if wizardChoicePlayer2 == 1:
-        print("Player 2 has chosen Steven!")
-    elif wizardChoicePlayer2 == 2:
-        print("Player 2 has summoned John!")
-    elif wizardChoicePlayer2 == 3:
-        print("Player 2 has picked Dave!")
-    elif wizardChoicePlayer2 == 4:
-        print("Shaniquous.")
-    print("Player 1 will go first")
-    fight()
 
 def objects():
     global StevenPlayer1
@@ -199,29 +129,29 @@ def objects():
 def fight():
     pointer = 1
     print("\n\n")
-    if wizardChoicePlayer1 == 1:
+    if Characters[0] == 1:
         print("Player 1, Steven has access to the following spells: ", StevenPlayer1.spell1, "and", StevenPlayer1.spell2)
         healthPlayer1 = StevenPlayer1.health
-    elif wizardChoicePlayer1 == 2:
+    elif Characters[0] == 2:
         print("Player 1, John has access to the following spells: ", JohnPlayer1.spell1 , "and", JohnPlayer1.spell2)
         healthPlayer1 = JohnPlayer1.health
-    elif wizardChoicePlayer1 == 3:
+    elif Characters[0] == 3:
         print("Player 1, Dave has access to the following spells: ", DavePlayer1.spell1 , "and", DavePlayer1.spell2)
         healthPlayer1 = DavePlayer1.health
-    elif wizardChoicePlayer1 == 4:
+    elif Characters[0] == 4:
         print("Player 1, Shaniquous has access to the following spells: ", ShaniquousPlayer1.spell1 , "and", ShaniquousPlayer1.spell2)
         healthPlayer1 = ShaniquousPlayer1.health
         
-    if wizardChoicePlayer2 == 1:
+    if Characters[1] == 1:
         print("Player 2, Steven has access to the following spells: ", StevenPlayer2.spell1, "and", StevenPlayer2.spell2)
         healthPlayer2 = StevenPlayer2.health
-    elif wizardChoicePlayer2 == 2:
+    elif Characters[1] == 2:
         print("Player 2, John has access to the following spells: ", JohnPlayer2.spell1 , "and", JohnPlayer2.spell2)
         healthPlayer2 = JohnPlayer2.health
-    elif wizardChoicePlayer2 == 3:
+    elif Characters[1] == 3:
         print("Player 2, Dave has access to the following spells: ", DavePlayer2.spell1 , "and", DavePlayer2.spell2)
         healthPlayer2 = DavePlayer2.health
-    elif wizardChoicePlayer2 == 4:
+    elif Characters[1] == 4:
         print("Player 2, Shaniquous has access to the following spells: ", ShaniquousPlayer2.spell1 , "and", ShaniquousPlayer2.spell2)
         healthPlayer2 = ShaniquousPlayer2.health
     print("\n\n")
@@ -237,7 +167,8 @@ def fight():
         pointerChange = True
         if pointer == 1:
             print("Player 1 it is your turn!")
-            if wizardChoicePlayer1 == 1: #add pointer to 2
+            if Characters[0] == 1: #add pointer to 2
+                print("Player 1, Steven has access to the following spells: ", StevenPlayer1.spell1, "and", StevenPlayer1.spell2)
                 if missChanceIncreasePlayer1 == True:
                     LightningPotion.missChance = LightningPotion.missChance * 1.5
                     FirePotion.missChance = FirePotion.missChance * 1.5
@@ -285,10 +216,11 @@ def fight():
                         print("Player 2 now has,", healthPlayer2 , "health")
                         if healthPlayer2 < 0:
                             print("Your opponent has perished! Congratulations")
-  
+
                 FirePotion.missChance = 0.3
                 LightningPotion.missChance = 0.35
-            elif wizardChoicePlayer1 == 2: # need to add pointers to 2
+            elif Characters[0] == 2: # need to add pointers to 2
+                print("Player 1, John has access to the following spells: ", JohnPlayer1.spell1 , "and", JohnPlayer1.spell2)
                 if missChanceIncreasePlayer1 == True:
                     ShieldPotion.missChance = ShieldPotion.missChance * 1.5
                     PunchPotion.missChance = PunchPotion.missChance * 1.5
@@ -328,7 +260,8 @@ def fight():
                             print("Your opponent has perished! Congratulations")
                 PunchPotion.missChance = 0.35
                 ShieldPotion.missChance = 0.1     
-            elif wizardChoicePlayer1 == 3:
+            elif Characters[0] == 3:
+                print("Player 1, Dave has access to the following spells: ", DavePlayer1.spell1 , "and", DavePlayer1.spell2)
                 if missChanceIncreasePlayer1 == True:
                     AirPotion.missChance = AirPotion.missChance * 1.5
                     RockPotion.missChance = RockPotion.missChance * 1.5
@@ -378,7 +311,8 @@ def fight():
                             print("Your opponent has perished! Congratulations")
                 AirPotion.missChance = 0.05
                 RockPotion.missChance = 0.3
-            elif wizardChoicePlayer1 == 4:
+            elif Characters[0] == 4:
+                print("Player 1, Shaniquous has access to the following spells: ", ShaniquousPlayer1.spell1 , "and", ShaniquousPlayer1.spell2)
                 if missChanceIncreasePlayer1 == True:
                     WaterPotion.missChance = WaterPotion.missChance * 1.5
                     HealPotion.missChance = HealPotion.missChance * 1.5
@@ -428,7 +362,8 @@ def fight():
 
         if pointer == 2:
             print("Player 2 it is your turn!")
-            if wizardChoicePlayer2 == 1:
+            if Characters[1] == 1:
+                print("Player 2, Steven has access to the following spells: ", StevenPlayer2.spell1, "and", StevenPlayer2.spell2)
                 if missChanceIncreasePlayer2 == True:
                     LightningPotion.missChance = LightningPotion.missChance * 1.5
                     FirePotion.missChance = FirePotion.missChance * 1.5
@@ -477,7 +412,8 @@ def fight():
                             print("Your opponent has perished! Congratulations")
                 FirePotion.missChance = 0.3
                 LightningPotion.missChance = 0.35
-            elif wizardChoicePlayer2 == 2:
+            elif Characters[1] == 2:
+                print("Player 2, John has access to the following spells: ", JohnPlayer2.spell1 , "and", JohnPlayer2.spell2)
                 if missChanceIncreasePlayer2 == True:
                     ShieldPotion.missChance = ShieldPotion.missChance * 1.5
                     PunchPotion.missChance = PunchPotion.missChance * 1.5
@@ -517,7 +453,8 @@ def fight():
                             print("Your opponent has perished! Congratulations")
                 PunchPotion.missChance = 0.35
                 ShieldPotion.missChance = 0.1            
-            elif wizardChoicePlayer2 == 3:
+            elif Characters[1] == 3:
+                print("Player 2, Dave has access to the following spells: ", DavePlayer2.spell1 , "and", DavePlayer2.spell2)
                 if missChanceIncreasePlayer2 == True:
                     AirPotion.missChance = AirPotion.missChance * 1.5
                     RockPotion.missChance = RockPotion.missChance * 1.5
@@ -567,7 +504,8 @@ def fight():
                             print("Your opponent has perished! Congratulations")
                 AirPotion.missChance = 0.05
                 RockPotion.missChance = 0.3
-            elif wizardChoicePlayer2 == 4:
+            elif Characters[1] == 4:
+                print("Player 2, Shaniquous has access to the following spells: ", ShaniquousPlayer2.spell1 , "and", ShaniquousPlayer2.spell2)
                 if missChanceIncreasePlayer2 == True:
                     WaterPotion.missChance = WaterPotion.missChance * 1.5
                     HealPotion.missChance = HealPotion.missChance * 1.5
@@ -587,7 +525,7 @@ def fight():
                         print("\n")
                         print("...")
                         time.sleep(1)
-                        print("You missed your Rock Potion!")
+                        print("You missed your Water Potion!")
                     else:
                         healthPlayer1 = healthPlayer1 - (WaterPotion.damage)
                         print("\n")
@@ -614,6 +552,231 @@ def fight():
                 pointer = 2
             continue
 
+pygame.init()
+pygame.font.init()
+
+res = (1080, 720)
+
+screen = pygame.display.set_mode(res)
+
+color = (255, 255, 255)
+color_purple = (106, 13, 173)
+
+color_light = (170, 170, 170)
+
+color_dark = (100, 100, 100)
+
+width = screen.get_width()
+
+height = screen.get_height()
+
+smallfont = pygame.font.SysFont('Comic Sans MS', 35)
+
+QuitText = smallfont.render('QUIT', True, color)
+StartText = smallfont.render('START', True, color)
+TitleText = smallfont.render('WIZARD ROYALE', True, color)
+EndTitleText = smallfont.render('Look at Terminal', True, color)
+ShaniquousText = smallfont.render('SHANIQUOUS', True, color_purple)
+StevenText = smallfont.render('Steven', True, color)
+JohnText = smallfont.render('John', True, color)
+DaveText = smallfont.render('Dave', True, color)
+
+#gameStates
+TitleState=0 
+ChoosingState=1
+CharacterState=2
+PlayState=3
+EndState=4
+Characters=[]
+GameState=TitleState
+
+gameStart = False
+gameOver = False
+SelectedScreen = False
+mousedown=False
+
+while not gameOver:
+    print(GameState)
+    for event in pygame.event.get():
+        mouse = pygame.mouse.get_pos()
+        if event.type == pygame.QUIT:
+            pygame.quit()
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            mousedown = True
+        elif event.type == pygame.MOUSEBUTTONUP:
+            mousedown = False
+        while GameState == TitleState:
+            #events
+            for event in pygame.event.get():
+                mouse = pygame.mouse.get_pos()
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    mousedown = True
+                elif event.type == pygame.MOUSEBUTTONUP:
+                    mousedown = False
+            #events
+            screen.fill((60, 25, 60))
+            if width/2 <= mouse[0] <= width/2+105 and height/2 <= mouse[1] <= height/2+40:
+                pygame.draw.rect(screen, color_light, [width / 2, height / 2, 105, 40])
+                pygame.draw.rect(screen, color_dark, [
+                            width / 2 - 200, height / 2, 130, 40]) 
+                if mousedown:
+                    pygame.quit()
+            elif width / 2 - 200 <= mouse[0] <= width / 2 - 200 + 130 and height / 2 <= mouse[1] <= height / 2 + 40:
+                pygame.draw.rect(screen, color_dark, [width / 2, height / 2, 105, 40])
+                pygame.draw.rect(screen, color_light, [
+                            width / 2 - 200, height / 2, 130, 40])
+                if mousedown:
+                    GameState=ChoosingState
+            else:
+                pygame.draw.rect(screen, color_dark, [
+                            width/2-200, height / 2, 130, 40])
+                pygame.draw.rect(screen, color_dark, [width / 2, height / 2, 105, 40])
+            screen.blit(TitleText, (width/2-50, 50))
+            screen.blit(QuitText, (width / 2, height / 2 - 9.25))
+            screen.blit(StartText, (width/2-200, height/2-9.25))
+            pygame.display.update()
+        while GameState == ChoosingState:
+            #events
+            for event in pygame.event.get():
+                mouse = pygame.mouse.get_pos()
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    mousedown = True
+                elif event.type == pygame.MOUSEBUTTONUP:
+                    mousedown = False
+            #events
+            screen.fill((8, 232, 222))
+            if 800 <= mouse[0] <= 800+300 and 509.25 <= mouse[1] <= 509.25+40:
+                pygame.draw.rect(screen, color_light, [
+                    800, 509.25, 300, 40])
+                pygame.draw.rect(screen, color_dark, [
+                    400, 509.25, 130, 40])
+                pygame.draw.rect(screen, color_dark, [
+                    400, 209.25, 130, 40])
+                pygame.draw.rect(screen, color_dark, [
+                    800, 209.25, 130, 40])
+                if mousedown:
+                    Characters.append(4)
+                    GameState=CharacterState
+            elif 400 <= mouse[0] <= 400 + 130 and 509.25 <= mouse[1] <= 509.25+40:
+                pygame.draw.rect(screen, color_dark, [
+                    800, 509.25, 300, 40])
+                pygame.draw.rect(screen, color_light, [
+                    400, 509.25, 130, 40])
+                pygame.draw.rect(screen, color_dark, [
+                    400, 209.25, 130, 40])
+                pygame.draw.rect(screen, color_dark, [
+                    800, 209.25, 130, 40])
+                if mousedown:
+                    Characters.append(1)
+                    GameState=CharacterState
+            elif 400 <= mouse[0] <= 400 + 130 and 209.25 <= mouse[1] <= 209.25+40:
+                pygame.draw.rect(screen, color_dark, [
+                    800, 509.25, 300, 40])
+                pygame.draw.rect(screen, color_dark, [
+                    400, 509.25, 130, 40])
+                pygame.draw.rect(screen, color_light, [
+                    400, 209.25, 130, 40])
+                pygame.draw.rect(screen, color_dark, [
+                    800, 209.25, 130, 40])
+                if mousedown:
+                    Characters.append(3)
+                    GameState=CharacterState
+            elif 800 <= mouse[0] <= 800 + 130 and 209.25 <= mouse[1] <= 209.25+40:
+                pygame.draw.rect(screen, color_dark, [
+                    800, 509.25, 300, 40])
+                pygame.draw.rect(screen, color_dark, [
+                    400, 509.25, 130, 40])
+                pygame.draw.rect(screen, color_dark, [
+                    400, 209.25, 130, 40])
+                pygame.draw.rect(screen, color_light, [
+                    800, 209.25, 130, 40])
+                if mousedown:
+                    Characters.append(2)
+                    GameState=CharacterState
+            else:
+                pygame.draw.rect(screen, color_dark, [
+                    800, 509.25, 300, 40])
+                pygame.draw.rect(screen, color_dark, [
+                    400, 509.25, 130, 40])
+                pygame.draw.rect(screen, color_dark, [
+                    400, 209.25, 130, 40])
+                pygame.draw.rect(screen, color_dark, [
+                    800, 209.25, 130, 40])
+            screen.blit(ShaniquousText, (800, 500))
+            screen.blit(StevenText, (400, 500))
+            screen.blit(DaveText, (400, 200))
+            screen.blit(JohnText, (800, 200))
+            if len(Characters) == 0:
+                screen.blit(smallfont.render("Player 1 choose:", True, (0, 0, 0)), (width / 2, 50))
+            elif len(Characters) == 1:
+                screen.blit(smallfont.render("Player 2 choose:", True, (0, 0, 0)), (width / 2, 50))
+            pygame.display.update()
+        while GameState==CharacterState:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+            length = len(Characters)
+            if Characters[length-1] == 1:
+                screen.fill((8, 232, 222))
+                screen.blit(smallfont.render("You have chosen Steven: A powerful and agressive wizard", True, (0,0,0)), (3, height / 2))
+                pygame.display.update()
+                time.sleep(2)
+                if length == 1:
+                    GameState = ChoosingState
+                elif length == 2:
+                    GameState = PlayState
+            elif Characters[length-1] == 2:
+                screen.fill((8, 232, 222))
+                screen.blit(smallfont.render("You have chosen John: A defensive but mildly irrational wizard", True, (0,0,0)), (3, height / 2))
+                pygame.display.update()
+                time.sleep(2)
+                if length == 1:
+                    GameState = ChoosingState
+                elif length == 2:
+                    GameState = PlayState
+            elif Characters[length-1] == 3:
+                screen.fill((8, 232, 222))
+                screen.blit(smallfont.render("You have chosen Dave: A wizard who controls the elements", True, (0,0,0)), (3, height / 2))
+                pygame.display.update()
+                time.sleep(2)
+                if length == 1:
+                    GameState = ChoosingState
+                elif length == 2:
+                    GameState = PlayState
+            elif Characters[length-1] == 4:
+                screen.fill((8, 232, 222))
+                screen.blit(smallfont.render("Shaniquous.", True, color_purple), (width / 2, height / 2))
+                pygame.display.update()
+                time.sleep(2)
+                if length == 1:
+                    GameState = ChoosingState
+                elif length == 2:
+                    GameState = PlayState
+        while GameState == PlayState:
+            for event in pygame.event.get():
+                mouse = pygame.mouse.get_pos()
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    mousedown = True
+                elif event.type == pygame.MOUSEBUTTONUP:
+                    mousedown = False
+            screen.fill((60, 25, 60))
+            if width/2 <= mouse[0] <= width/2+105 and height/2 <= mouse[1] <= height/2+40:
+                pygame.draw.rect(screen, color_light, [width / 2, height / 2, 105, 40])
+                if mousedown:
+                    pygame.quit()
+                    objects()
+                    fight()
+    
+            else:
+                pygame.draw.rect(screen, color_dark, [width / 2, height / 2, 105, 40])
+            screen.blit(EndTitleText, (width/2-50, 50))
+            screen.blit(QuitText, (width / 2, height / 2 - 9.25))
+            pygame.display.update()
 
 
-mainProgram()
