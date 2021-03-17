@@ -595,8 +595,7 @@ gameOver = False
 SelectedScreen = False
 mousedown=False
 
-while not gameOver:
-    print(GameState)
+while not gameOver: 
     for event in pygame.event.get():
         mouse = pygame.mouse.get_pos()
         if event.type == pygame.QUIT:
@@ -778,5 +777,4 @@ while not gameOver:
             screen.blit(EndTitleText, (width/2-50, 50))
             screen.blit(QuitText, (width / 2, height / 2 - 9.25))
             pygame.display.update()
-
 
