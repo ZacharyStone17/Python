@@ -777,4 +777,5 @@ while not gameOver:
             screen.blit(EndTitleText, (width/2-50, 50))
             screen.blit(QuitText, (width / 2, height / 2 - 9.25))
             pygame.display.update()
+       
 
